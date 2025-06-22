@@ -17,6 +17,7 @@ modules:
     parameters:
       instances: 1
       buildpack: nodejs_buildpack
+      memory: 256M
     build-parameters:
       builder: npm-ci
     provides:
@@ -26,6 +27,7 @@ modules:
     requires:
       - name: cap-mtaext-db
       - name: cap-mtaext-auth
+      - name: cap-mtaext-autoscaler
 
   - name: cap-mtaext-db-deployer
     type: hdb
@@ -50,3 +52,9 @@ resources:
       config:
         xsappname: cap-mtaext-${org}-${space}
         tenant-mode: dedicated
+  # リソースはmtaextに記載できないのでここで定義      
+  - name: cap-mtaext-autoscaler
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: autoscaler
+      service-plan: standard

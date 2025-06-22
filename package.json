@@ -20,7 +20,11 @@
     "@sap/cds-dk": ">=8"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "build": "mbt build -t gen --mtar mta.tar",
+    "build:ext": "mbt build -t gen --mtar mta.tar --extensions prod.mtaext",
+    "deploy": "cf deploy gen/mta.tar -f",
+    "deploy:ext" : "cf deploy gen/mta.tar -f -e prod.mtaext"
   },
   "cds": {
     "requires": {
