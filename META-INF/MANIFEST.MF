@@ -1,0 +1,16 @@
+manifest-Version: 1.0
+Created-By: SAP Application Archive Builder 1.2.34
+
+Name: cap-mtaext-srv/data.zip
+MTA-Module: cap-mtaext-srv
+Content-Type: application/zip
+
+
+Name: xs-security.json
+MTA-Resource: cap-mtaext-auth
+Content-Type: application/json
+
+
+Name: META-INF/mtad.yaml
+Content-Type: text/plain
+

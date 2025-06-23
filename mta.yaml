@@ -25,24 +25,10 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: cap-mtaext-db
       - name: cap-mtaext-auth
       - name: cap-mtaext-autoscaler
 
-  - name: cap-mtaext-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: cap-mtaext-db
-
 resources:
-  - name: cap-mtaext-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
   - name: cap-mtaext-auth
     type: org.cloudfoundry.managed-service
     parameters:

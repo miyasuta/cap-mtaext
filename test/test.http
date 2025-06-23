@@ -1,0 +1,4 @@
+@server=http://localhost:4004
+
+###
+GET {{server}}/odata/v4/catalog/hello()
