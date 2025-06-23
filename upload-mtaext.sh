@@ -51,13 +51,29 @@ EXISTING_ID=$(curl -s -X GET "$TMS_URL/v2/nodes/$NODE_ID/mtaExtDescriptors" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   | awk -v mtaid="$MTA_ID" -v version="$MTA_VERSION" '
     BEGIN { RS="{"; FS="," }
-    $0 ~ "\"mtaId\"" && $0 ~ mtaid && $0 ~ "\"mtaVersion\"" && $0 ~ version {
+    {
+      found_id=""
+      found_mtaid=""
+      found_version=""
       for (i=1; i<=NF; i++) {
         if ($i ~ /"id"[[:space:]]*:/) {
-          gsub(/[^0-9]/, "", $i);
-          print $i;
-          exit
+          gsub(/[^0-9]/, "", $i)
+          found_id=$i
         }
+        if ($i ~ /"mtaId"[[:space:]]*:/) {
+          gsub(/.*:[[:space:]]*"/, "", $i)
+          gsub(/"/, "", $i)
+          found_mtaid=$i
+        }
+        if ($i ~ /"mtaVersion"[[:space:]]*:/) {
+          gsub(/.*:[[:space:]]*"/, "", $i)
+          gsub(/"/, "", $i)
+          found_version=$i
+        }
+      }
+      if (found_mtaid == mtaid && found_version == version) {
+        print found_id
+        exit
       }
     }')
 
