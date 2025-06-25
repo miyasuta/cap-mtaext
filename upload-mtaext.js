@@ -28,9 +28,9 @@ try {
   process.exit(1);
 }
 
-const CLIENT_ID = serviceKey.clientid;
-const CLIENT_SECRET = serviceKey.clientsecret;
-const OAUTH_URL = serviceKey.url + '/oauth/token';
+const CLIENT_ID = serviceKey.uaa.clientid;
+const CLIENT_SECRET = serviceKey.uaa.clientsecret;
+const OAUTH_URL = serviceKey.uaa.url + '/oauth/token';
 const TMS_URL = serviceKey.uri;
 
 async function getAccessToken() {
