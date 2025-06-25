@@ -45,6 +45,8 @@ async function getAccessToken() {
     return response.data.access_token;
   } catch (err) {
     console.error("❌ Failed to retrieve access token");
+    console.error("Error code:", err.response ? err.response.status : 'N/A');
+    console.error("Error details:", err.message);
     process.exit(1);
   }
 }
