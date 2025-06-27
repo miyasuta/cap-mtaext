@@ -1,0 +1,46 @@
+---
+general:
+  buildTool: "mta"
+service:
+  buildToolVersion: "MBTJ21N22"
+  stages:
+    Release:
+      credentialVariables:
+      - name: "CTMS_SERVICE_KEY"
+        credentialId: "ctmskey"
+      stringVariables:
+      - name: "NODE_ID"
+        value: "4"
+      - name: "MTAEXT_NAME"
+        value: "test.mtaext"
+      - name: "MTA_VERSION"
+        value: "*"
+      - name: "DESCRIPTION"
+        value: "test"
+      - name: "MTA_ID"
+        value: "cap-mtaext"
+      runLast:
+        command: "npm install && node upload-mtaext.js"
+stages:
+  Build:
+    mavenExecuteStaticCodeChecks: false
+    npmExecuteLint: false
+  Acceptance:
+    cloudFoundryDeploy: false
+    npmExecuteEndToEndTests: false
+  Malware Scan:
+    malwareExecuteScan: false
+  Release:
+    tmsExport: false
+    tmsUpload: true
+    cloudFoundryDeploy: false
+  Additional Unit Tests:
+    npmExecuteScripts: false
+  Compliance:
+    sonarExecuteScan: false
+steps:
+  tmsUpload:
+    nodeName: "DEV"
+    credentialsId: "ctmskey"
+  artifactPrepareVersion:
+    versioningType: "cloud_noTag"
