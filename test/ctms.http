@@ -1,0 +1,56 @@
+@apiUrl=https://transport-service-app-backend.ts.cfapps.us10.hana.ondemand.com
+@clientid=
+@clientsecret=
+@url=https://f14949edtrial.authentication.us10.hana.ondemand.com/oauth/token
+
+### Get Token
+# @name TokenRequest
+POST {{url}}
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id={{clientid}}&client_secret={{clientsecret}}
+
+### Upload File
+POST {{apiUrl}}/v2/files/upload
+Authorization: Bearer {{TokenRequest.response.body.access_token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="your-file.mtar"
+Content-Type: application/octet-stream
+
+< ./gen/your-file.mtar
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get Nodes
+GET {{apiUrl}}/v2/nodes
+Authorization: Bearer {{TokenRequest.response.body.access_token}}
+
+### Upload mtaext
+@nodeid=4
+GET {{apiUrl}}/v2/nodes/{{nodeid}}/mtaExtDescriptors
+Authorization: Bearer {{TokenRequest.response.body.access_token}}
+
+### Upload mtaext
+@nodeid=4
+POST {{apiUrl}}/v2/nodes/{{nodeid}}/mtaExtDescriptors
+Authorization: Bearer {{TokenRequest.response.body.access_token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarymtaextupload
+tms-named-user: MioYasutake
+
+------WebKitFormBoundarymtaextupload
+Content-Disposition: form-data; name="file"; filename="prod.mtaext"
+Content-Type: application/octet-stream
+
+< ./prod.mtaext
+------WebKitFormBoundarymtaextupload
+Content-Disposition: form-data; name="mtaVersion"
+
+1.0.1
+------WebKitFormBoundarymtaextupload
+Content-Disposition: form-data; name="description"
+
+Extension file for production
+------WebKitFormBoundarymtaextupload--
+
+
